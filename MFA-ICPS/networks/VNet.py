@@ -275,7 +275,7 @@ class Decoder(nn.Module):
         self.conv1x1 = nn.Conv3d(256, 16, kernel_size=1, padding=0, bias=False)
         self.bn_high = nn.BatchNorm3d(16)
         #
-        self.conv_upsample = nn.ConvTranspose3d(256, 16, kernel_size=(4, 4, 6), stride=19, padding=(3, 3, 1))
+        self.conv_upsample = nn.ConvTranspose3d(256, 16, kernel_size=(4, 4, 4), stride=19, padding=(3, 3, 1))
         self.bn_upsample = nn.BatchNorm3d(16)
 
         self.conv_reduction = nn.Conv3d(16, 256, kernel_size=1, padding=0, bias=False)
