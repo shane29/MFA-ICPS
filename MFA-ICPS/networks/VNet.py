@@ -269,10 +269,10 @@ class Decoder(nn.Module):
         self.attention = CBAM_Block(channel=256, ratio=16, kernel_size=7)
         self.attention9 = CBAM_Block(channel=16, ratio=16, kernel_size=7)
 
-        self.conv3x3 = nn.Conv3d(16, 16, kernel_size=3, padding=1, bias=False)
+        self.conv3x3x3 = nn.Conv3d(16, 16, kernel_size=3, padding=1, bias=False)
         self.bn_low = nn.BatchNorm3d(16)
         #
-        self.conv1x1 = nn.Conv3d(256, 16, kernel_size=1, padding=0, bias=False)
+        self.conv1x1x1 = nn.Conv3d(256, 16, kernel_size=1, padding=0, bias=False)
         self.bn_high = nn.BatchNorm3d(16)
         #
         self.conv_upsample = nn.ConvTranspose3d(256, 16, kernel_size=(4, 4, 4), stride=19, padding=(3, 3, 1))
@@ -317,9 +317,9 @@ class Decoder(nn.Module):
         out_atten9 = self.attention9(x9)
 
         fms_high_gp = nn.AvgPool3d(out_atten5.shape[2:])(out_atten5).view(len(out_atten5), 256, 1, 1, 1)
-        fms_high_gp = self.conv1x1(fms_high_gp)
+        fms_high_gp = self.conv1x1x1(fms_high_gp)
 
-        fms_low_mask = self.conv3x3(out_atten9)
+        fms_low_mask = self.conv3x3x3(out_atten9)
 
         fms_att = fms_low_mask * fms_high_gp
 
